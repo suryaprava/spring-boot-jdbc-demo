@@ -4,6 +4,8 @@ import com.suryaprava.springbootdemo.exceptions.DuplicateEmployeePresentExceptio
 import com.suryaprava.springbootdemo.exceptions.EmployeeNotFoundException;
 import com.suryaprava.springbootdemo.exceptions.NoEmployeeFoundException;
 import com.suryaprava.springbootdemo.models.Employee;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -20,54 +22,55 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/employees", method = RequestMethod.GET)
-    public Map<Long, Employee> get() {
+    public ResponseEntity<Map<Long, Employee>> get() {
         if (employeeCache.isEmpty()) {
             throw new NoEmployeeFoundException();
         } else {
-            return employeeCache;
+            return new ResponseEntity<Map<Long, Employee>>(employeeCache, HttpStatus.FOUND);
         }
     }
 
     @RequestMapping(value = "/employees/{id}", method = RequestMethod.GET)
-    public Employee get(@PathVariable int id) {
+    public ResponseEntity<Employee> get(@PathVariable int id) {
         if (employeeCache.containsKey(Long.valueOf(id))) {
-            return employeeCache.get(Long.valueOf(id));
+            return new ResponseEntity<Employee>( employeeCache.get(Long.valueOf(id)), HttpStatus.FOUND);
         } else {
             throw new EmployeeNotFoundException(id);
         }
     }
 
     @RequestMapping(value = "/employee", method = RequestMethod.GET)
-    public Employee get(@RequestParam("id") long id) {
+    public ResponseEntity<Employee> get(@RequestParam("id") long id) {
         if (employeeCache.containsKey(id)) {
-            return employeeCache.get(id);
+             return new ResponseEntity<Employee>(employeeCache.get(id), HttpStatus.FOUND);
         } else {
             throw new EmployeeNotFoundException(id);
         }
     }
 
     @RequestMapping(value = "employee/add", method = RequestMethod.POST)
-    public Employee add(@RequestBody Employee employee) {
+    public ResponseEntity<Employee> create(@RequestBody Employee employee) {
         if (employeeCache.containsKey(employee.getEmployeeId())) {
             throw new DuplicateEmployeePresentException(employee.getEmployeeId());
         } else {
-            return employeeCache.put(employee.getEmployeeId(), employee);
+            employeeCache.put(employee.getEmployeeId(), employee);
+            return new ResponseEntity<Employee>(employee, HttpStatus.CREATED);
         }
     }
 
     @RequestMapping(value = "/employee/update", method = RequestMethod.PUT)
-    public Employee update(@RequestBody Employee employee) {
+    public ResponseEntity<Employee> update(@RequestBody Employee employee) {
         if (employeeCache.containsKey(employee.getEmployeeId())) {
-            return employeeCache.put(employee.getEmployeeId(), employee);
+            return new ResponseEntity<Employee>(employeeCache.put(employee.getEmployeeId(), employee), HttpStatus.OK);
         } else {
             throw new EmployeeNotFoundException(employee.getEmployeeId());
         }
     }
 
     @RequestMapping(value = "employee/delete", method = RequestMethod.DELETE)
-    public Employee delete(@RequestParam("id") long id) {
+    public ResponseEntity<Employee> delete(@RequestParam("id") long id) {
         if (employeeCache.containsKey(id)) {
-            return employeeCache.remove(id);
+            return new ResponseEntity<Employee>(employeeCache.remove(id), HttpStatus.OK);
 
         } else {
             throw new EmployeeNotFoundException(id);
