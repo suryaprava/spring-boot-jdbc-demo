@@ -12,12 +12,8 @@ import java.util.List;
 @RestController
 public class EmployeeController {
 
-    private final EmployeeDao employeeDao;
-
     @Autowired
-    public EmployeeController(EmployeeDao employeeDao) {
-        this.employeeDao = employeeDao;
-    }
+    private EmployeeDao employeeDao;
 
     @RequestMapping(value = "/employees", method = RequestMethod.GET)
     public ResponseEntity<List<Employee>> get() {
