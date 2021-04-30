@@ -1,0 +1,4 @@
+CREATE TABLE "HR"."EMP"
+   (    "EMP_ID" VARCHAR2(6),
+        "EMP_NAME" VARCHAR2(30)
+   );
