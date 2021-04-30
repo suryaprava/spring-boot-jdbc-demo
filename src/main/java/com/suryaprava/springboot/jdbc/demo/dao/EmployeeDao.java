@@ -16,15 +16,17 @@ import java.util.Map;
 @Component
 public class EmployeeDao {
 
-    private final String SELECT = "SELECT * FROM EMPLOYEES";
-    private final String WHERE = "SELECT * FROM EMPLOYEES WHERE EMPLOYEE_ID = ?";
+    private final String TABLE = "EMP";
+    private final String SELECT = "SELECT * FROM " + TABLE;
+    private final String WHERE = "SELECT * FROM " + TABLE + " WHERE EMP_ID = ?";
+
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert simpleJdbcInsert;
 
     @Autowired
     public EmployeeDao(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
-        this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("EMPLOYEES");
+        this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("EMP");
     }
 
     public List<Employee> getEmployees() {
@@ -32,10 +34,9 @@ public class EmployeeDao {
 
             Employee employee = new Employee();
 
-            employee.setEmployeeId(rs.getLong("EMPLOYEE_ID"));
-            employee.setFirstName(rs.getString("FIRST_NAME"));
-            employee.setLastName(rs.getString("LAST_NAME"));
-            employee.setPhoneNumber(rs.getString("PHONE_NUMBER"));
+            employee.setEmployeeId(rs.getLong("EMP_ID"));
+            employee.setName(rs.getString("EMP_NAME"));
+            employee.setDepartment(rs.getString("EMP_DEPT"));
 
             return employee;
         });
@@ -45,10 +46,11 @@ public class EmployeeDao {
         return jdbcTemplate.queryForObject(WHERE, (ResultSet rs, int rowNum) -> {
 
                 Employee employee = new Employee();
-                employee.setEmployeeId(rs.getLong("EMPLOYEE_ID"));
-                employee.setFirstName(rs.getString("FIRST_NAME"));
-                employee.setLastName(rs.getString("LAST_NAME"));
-                employee.setPhoneNumber(rs.getString("PHONE_NUMBER"));
+
+                employee.setEmployeeId(rs.getLong("EMP_ID"));
+                employee.setName(rs.getString("EMP_NAME"));
+                employee.setDepartment(rs.getString("EMP_DEPT"));
+
                 return employee;
 
 
@@ -58,16 +60,11 @@ public class EmployeeDao {
     public int adddEmployee(Employee employee) throws Exception {
         Map<String, Object> parameters = new HashMap<>();
 
-        parameters.put("EMPLOYEE_ID", employee.getEmployeeId());
-        parameters.put("FIRST_NAME", employee.getFirstName());
-        parameters.put("LAST_NAME", employee.getLastName());
-        parameters.put("PHONE_NUMBER", employee.getLastName());
-        parameters.put("EMAIL", "MAIL");
-        parameters.put("HIRE_DATE", Date.valueOf("2020-04-29"));
-        parameters.put("JOB_ID", "ST_MAN");
+        parameters.put("EMP_ID", employee.getEmployeeId());
+        parameters.put("EMP_NAME", employee.getName());
+        parameters.put("EMP_DEPT", employee.getDepartment());
+
         return simpleJdbcInsert.execute(parameters);
     }
-
-
 
 }

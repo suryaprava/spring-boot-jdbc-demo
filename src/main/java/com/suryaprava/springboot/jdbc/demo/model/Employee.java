@@ -3,20 +3,10 @@ package com.suryaprava.springboot.jdbc.demo.model;
 public class Employee {
 
     private long employeeId;
-    private String firstName;
-    private String middleName;
-    private String lastName;
-    private String phoneNumber;
+    private String name;
+    private String department;
 
     public Employee() {
-    }
-
-    public Employee(long employeeId, String firstName, String middleName, String lastName, String phoneNumber) {
-        this.employeeId = employeeId;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
     }
 
     public long getEmployeeId() {
@@ -27,35 +17,19 @@ public class Employee {
         this.employeeId = employeeId;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getMiddleName() {
-        return middleName;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setDepartment(String department) {
+        this.department = department;
     }
 }
