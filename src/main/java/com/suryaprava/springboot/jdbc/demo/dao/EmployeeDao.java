@@ -20,8 +20,8 @@ public class EmployeeDao {
     private final String SELECT = "SELECT * FROM " + TABLE;
     private final String WHERE = "SELECT * FROM " + TABLE + " WHERE EMP_ID = ?";
 
-    private JdbcTemplate jdbcTemplate;
-    private SimpleJdbcInsert simpleJdbcInsert;
+    private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert simpleJdbcInsert;
 
     @Autowired
     public EmployeeDao(DataSource dataSource) {
@@ -57,14 +57,14 @@ public class EmployeeDao {
         }, id);
     }
 
-    public int adddEmployee(Employee employee) throws Exception {
+    public void addEmployee(Employee employee) {
         Map<String, Object> parameters = new HashMap<>();
 
         parameters.put("EMP_ID", employee.getEmployeeId());
         parameters.put("EMP_NAME", employee.getName());
         parameters.put("EMP_DEPT", employee.getDepartment());
 
-        return simpleJdbcInsert.execute(parameters);
+        simpleJdbcInsert.execute(parameters);
     }
 
 }
