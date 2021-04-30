@@ -1,4 +1,4 @@
-package com.suryaprava.springbootdemo.models;
+package com.suryaprava.springboot.jdbc.demo.model;
 
 public class Employee {
 
@@ -11,16 +11,16 @@ public class Employee {
     public Employee() {
     }
 
-    public long getEmployeeId() {
-        return employeeId;
-    }
-
     public Employee(long employeeId, String firstName, String middleName, String lastName, String phoneNumber) {
         this.employeeId = employeeId;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
+    }
+
+    public long getEmployeeId() {
+        return employeeId;
     }
 
     public void setEmployeeId(long employeeId) {

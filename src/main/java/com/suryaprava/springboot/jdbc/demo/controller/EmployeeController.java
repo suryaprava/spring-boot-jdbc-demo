@@ -1,19 +1,21 @@
-package com.suryaprava.springbootdemo.controllers;
+package com.suryaprava.springboot.jdbc.demo.controller;
 
-import com.suryaprava.springbootdemo.exceptions.DuplicateEmployeePresentException;
-import com.suryaprava.springbootdemo.exceptions.EmployeeNotFoundException;
-import com.suryaprava.springbootdemo.exceptions.NoEmployeeFoundException;
-import com.suryaprava.springbootdemo.models.Employee;
+import com.suryaprava.springboot.jdbc.demo.dao.EmployeeDao;
+import com.suryaprava.springboot.jdbc.demo.model.Employee;
+import com.suryaprava.springboot.jdbc.demo.exception.EmployeeNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 public class EmployeeController {
 
+    private final EmployeeDao employeeDao;
     private Map<Long, Employee> employeeCache = new HashMap<Long, Employee>();
 
     {
@@ -21,41 +23,29 @@ public class EmployeeController {
         employeeCache.put(Long.valueOf(456), new Employee(456, "Snigdha", "Rani", "Sahoo", "123456789"));
     }
 
+    @Autowired
+    public EmployeeController(EmployeeDao employeeDao) {
+        this.employeeDao = employeeDao;
+    }
+
     @RequestMapping(value = "/employees", method = RequestMethod.GET)
-    public ResponseEntity<Map<Long, Employee>> get() {
-        if (employeeCache.isEmpty()) {
-            throw new NoEmployeeFoundException();
-        } else {
-            return new ResponseEntity<Map<Long, Employee>>(employeeCache, HttpStatus.FOUND);
-        }
+    public ResponseEntity<List<Employee>> get() {
+        return new ResponseEntity<>(employeeDao.getEmployees(), HttpStatus.FOUND);
     }
 
     @RequestMapping(value = "/employees/{id}", method = RequestMethod.GET)
     public ResponseEntity<Employee> get(@PathVariable int id) {
-        if (employeeCache.containsKey(Long.valueOf(id))) {
-            return new ResponseEntity<Employee>( employeeCache.get(Long.valueOf(id)), HttpStatus.FOUND);
-        } else {
-            throw new EmployeeNotFoundException(id);
-        }
+        return new ResponseEntity<Employee>(employeeDao.getEmployee(Long.valueOf(id)), HttpStatus.FOUND);
     }
 
     @RequestMapping(value = "/employee", method = RequestMethod.GET)
     public ResponseEntity<Employee> get(@RequestParam("id") long id) {
-        if (employeeCache.containsKey(id)) {
-             return new ResponseEntity<Employee>(employeeCache.get(id), HttpStatus.FOUND);
-        } else {
-            throw new EmployeeNotFoundException(id);
-        }
+        return new ResponseEntity<Employee>(employeeDao.getEmployee(id), HttpStatus.FOUND);
     }
 
     @RequestMapping(value = "employee/add", method = RequestMethod.POST)
-    public ResponseEntity<Employee> create(@RequestBody Employee employee) {
-        if (employeeCache.containsKey(employee.getEmployeeId())) {
-            throw new DuplicateEmployeePresentException(employee.getEmployeeId());
-        } else {
-            employeeCache.put(employee.getEmployeeId(), employee);
-            return new ResponseEntity<Employee>(employee, HttpStatus.CREATED);
-        }
+    public int create(@RequestBody Employee employee) throws Exception {
+        return employeeDao.adddEmployee(employee);
     }
 
     @RequestMapping(value = "/employee/update", method = RequestMethod.PUT)
