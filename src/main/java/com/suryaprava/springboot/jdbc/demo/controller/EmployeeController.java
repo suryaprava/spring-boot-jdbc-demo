@@ -45,7 +45,7 @@ public class EmployeeController {
     @RequestMapping(value = "employee/delete", method = RequestMethod.DELETE)
     public ResponseEntity<String> delete(@RequestParam("id") long id) {
         employeeService.deleteEmployee(id);
-        return new ResponseEntity<>("Employee deleted.", HttpStatus.OK);
+        return new ResponseEntity<>("Employee deleted!", HttpStatus.OK);
     }
 
 }
