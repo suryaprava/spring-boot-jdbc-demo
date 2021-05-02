@@ -1,14 +1,18 @@
 package com.suryaprava.springboot.jdbc.demo.config;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 
-@Component
+@Configuration
 public class EmployeeConfig {
+
+    @Value("${employee.db.table:TABLE_NOT_FOUND}")
+    private String table;
 
     @Value("${employee.db.driver:DRIVER_NOT_FOUND}")
     private String driver;
@@ -22,16 +26,10 @@ public class EmployeeConfig {
     @Value("${employee.db.password:NO_PASSWORD_FOUND}")
     private String password;
 
-    private DriverManagerDataSource dataSource;
-
-    public String getDriver() {
-        return driver;
-    }
-
     @Bean
     public DataSource getDataSource() {
 
-        dataSource = new DriverManagerDataSource();
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(driver);
         dataSource.setUrl(url);
         dataSource.setUsername(user);
@@ -39,4 +37,11 @@ public class EmployeeConfig {
 
         return dataSource;
     }
+
+    @Bean
+    @Qualifier("table")
+    public String getTable() {
+        return table;
+    }
+
 }
