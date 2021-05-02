@@ -3,7 +3,6 @@ package com.suryaprava.springboot.jdbc.demo.service;
 import com.suryaprava.springboot.jdbc.demo.dao.EmployeeDao;
 import com.suryaprava.springboot.jdbc.demo.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

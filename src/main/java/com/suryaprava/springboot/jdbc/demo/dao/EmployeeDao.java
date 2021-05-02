@@ -16,12 +16,11 @@ import java.util.Map;
 @Component
 public class EmployeeDao {
 
+    private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert simpleJdbcInsert;
     @Autowired
     @Qualifier("table")
     private String TABLE;
-
-    private final JdbcTemplate jdbcTemplate;
-    private final SimpleJdbcInsert simpleJdbcInsert;
 
     @Autowired
     public EmployeeDao(DataSource dataSource, @Qualifier("table") String table) {
@@ -49,13 +48,13 @@ public class EmployeeDao {
 
         return jdbcTemplate.queryForObject(GET_EMPLOYEE_BY_ID, (ResultSet rs, int rowNum) -> {
 
-                Employee employee = new Employee();
+            Employee employee = new Employee();
 
-                employee.setEmployeeId(rs.getLong("EMP_ID"));
-                employee.setName(rs.getString("EMP_NAME"));
-                employee.setDepartment(rs.getString("EMP_DEPT"));
+            employee.setEmployeeId(rs.getLong("EMP_ID"));
+            employee.setName(rs.getString("EMP_NAME"));
+            employee.setDepartment(rs.getString("EMP_DEPT"));
 
-                return employee;
+            return employee;
 
         }, id);
     }
