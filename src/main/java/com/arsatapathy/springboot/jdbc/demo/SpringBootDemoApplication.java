@@ -1,4 +1,4 @@
-package com.suryaprava.springboot.jdbc.demo;
+package com.arsatapathy.springboot.jdbc.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

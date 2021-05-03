@@ -1,4 +1,4 @@
-package com.suryaprava.springboot.jdbc.demo;
+package com.arsatapathy.springboot.jdbc.demo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

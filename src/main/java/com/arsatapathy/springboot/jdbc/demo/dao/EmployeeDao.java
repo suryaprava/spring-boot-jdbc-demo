@@ -1,6 +1,6 @@
-package com.suryaprava.springboot.jdbc.demo.dao;
+package com.arsatapathy.springboot.jdbc.demo.dao;
 
-import com.suryaprava.springboot.jdbc.demo.model.Employee;
+import com.arsatapathy.springboot.jdbc.demo.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;

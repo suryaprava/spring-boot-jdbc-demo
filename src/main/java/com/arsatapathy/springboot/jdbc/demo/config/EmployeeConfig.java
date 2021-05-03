@@ -1,4 +1,4 @@
-package com.suryaprava.springboot.jdbc.demo.config;
+package com.arsatapathy.springboot.jdbc.demo.config;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
