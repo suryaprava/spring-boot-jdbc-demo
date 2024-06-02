@@ -3,10 +3,10 @@ name: spring-boot-jdbc-demo-ci
 on:
   push:
     branches:
-      - master
+      - '**'  # Trigger on push to any branch
   pull_request:
     branches:
-      - master
+      - '**'  # Trigger on pull request to any branch
 
 jobs:
   build:
